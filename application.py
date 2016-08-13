@@ -5,7 +5,7 @@ from flask_admin import Admin
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CsrfProtect
-from settings import ROOT_DIR, DEBUG, DATABASE
+from settings import ROOT_DIR, DEBUG, DATABASE, SECRET_KEY
 from flask_login import LoginManager
 
 
@@ -16,7 +16,7 @@ app = Flask(__name__, root_path=ROOT_DIR)
 ### APP CONFIGS ###
 ###################
 app.config['DEBUG'] = DEBUG
-app.config['SECRET_KEY'] = 'kAanV1owk^21dT23^$#@know./%*'
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['DEBUG_TB_PROFILER_ENABLED'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 

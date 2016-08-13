@@ -39,10 +39,10 @@ def create_data():
     return True
 
 
-def create_tables():
+def recreate_db():
     from settings import DB_URI, DEBUG, ROOT_DIR
     from migrations.m_001_initialize import create_tables
-    re_create_tables = DEBUG
+    re_create_tables = True
     if re_create_tables:
         if os.path.exists(os.path.join(ROOT_DIR, DB_URI)):
             os.remove(os.path.join(ROOT_DIR, DB_URI))
