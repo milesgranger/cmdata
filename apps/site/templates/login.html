@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block header_static %}
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+    <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row main">
+
+        <div class="col-sm-4 col-sm-offset-4">
+
+            <div class="panel-heading">
+                <div class="panel-title text-center">
+                    <h1 class="title">Login</h1>
+                    <hr/>
+                </div>
+            </div>
+            <div class="main-login main-center">
+                <form class="form-horizontal" method="post" action="/login">
+
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group {{ "has-error" if form.username.errors }}">
+                        <label for="username" class="cols-sm-2 control-label">Username</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                                {{ form.username(class="form-control", placeholder="Username or email if not registered") }}
+                            </div>
+                        </div>
+                        <p class="help-block">
+                            {{ form.username.errors[0] }}
+                        </p>
+                    </div>
+
+                    <div class="form-group {{ "has-error" if form.password.errors }}">
+                        <label for="password" class="cols-sm-2 control-label">Password</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa-lg"
+                                                                   aria-hidden="true"></i></span>
+                                <input type="password" class="form-control" name="password" id="password"
+                                       placeholder="Enter your Password"/>
+                            </div>
+                        </div>
+                        <p class="help-block">
+                            {% for err in form.password.errors %}
+                            -{{ err }}
+                            {% endfor %}
+                        </p>
+                    </div>
+
+                    <div class="form-group ">
+                        <button type="submit" class="btn btn-primary btn-block login-button">Register</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
