@@ -84,3 +84,16 @@ def after_request(exc):
         DATABASE.close()
 
 
+@app.before_first_request
+def create_tables():
+    from settings import DB_URI
+    from utils.create_data import create_data
+    from migrations.m_001_initialize import create_tables
+    re_create_tables = DEBUG
+    if re_create_tables:
+        if os.path.exists(os.path.join(ROOT_DIR, DB_URI)):
+            os.remove(os.path.join(ROOT_DIR, DB_URI))
+            print '\nRemoved {}\n'.format(DB_URI)
+        create_tables()
+        create_data()
+    return True
