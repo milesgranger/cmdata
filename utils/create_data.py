@@ -40,13 +40,13 @@ def create_data():
 
 
 def recreate_db():
-    from settings import DB_URI, DEBUG, ROOT_DIR
+    '''Recreats DB and also empties static/images/ via create_data above'''
+    from settings import DB_URI, ROOT_DIR
     from migrations.m_001_initialize import create_tables
-    re_create_tables = True
-    if re_create_tables:
-        if os.path.exists(os.path.join(ROOT_DIR, DB_URI)):
-            os.remove(os.path.join(ROOT_DIR, DB_URI))
-            print '\nRemoved {}\n'.format(DB_URI)
-        create_tables()
-        create_data()
+
+    if os.path.exists(os.path.join(ROOT_DIR, DB_URI)):
+        os.remove(os.path.join(ROOT_DIR, DB_URI))
+        print '\nRemoved {}\n'.format(DB_URI)
+    create_tables()
+    create_data()
     return True

@@ -1,3 +1,6 @@
+# File only used during development
+# For deployment app is picked up via WSGI
+
 from application import app
 from utils.create_data import recreate_db
 

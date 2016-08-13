@@ -1,13 +1,13 @@
 from apps.site.models import BusinessArea, User
 from settings import DATABASE
 
-tables = [
+models = [
     BusinessArea,
     User,
 ]
 
 def create_tables():
     print 'Building tables...'
-    DATABASE.create_tables(models=tables,
+    DATABASE.create_tables(models=models,
                            safe=True)
     print 'Tables built for models.'
