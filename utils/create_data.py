@@ -1,7 +1,7 @@
 import os
 import glob
 from settings import STATIC_DIR
-from apps.site.models import BusinessArea, User
+from apps.site.models import CMS, User
 from faker import Factory
 from application import bcrypt
 
@@ -25,16 +25,35 @@ def create_data():
     user.password = bcrypt.generate_password_hash('test')
     user.save()
 
+    user = User()
+    user.first_name = 'Chase'
+    user.last_name = 'Stoeger'
+    user.username = 'chases'
+    user.password = bcrypt.generate_password_hash('password')
+    user.save()
+
     ###############################
     ### Create business areas #####
     ###############################
     print 'Building Business Areas...'
     for i in range(3):
-        BusinessArea.create(
-            title=fake.text(25),
-            introduction=fake.paragraph(),
-            image_path=fake.text(25)
-        )
+        item = CMS()
+        item.page = u'/'
+        item.place_holder = u'what_we_do'
+        item.title = fake.text(25)
+        item.text = fake.paragraph()
+        item.save()
+
+    ###############################
+    ### Create business areas #####
+    ###############################
+    print 'Building dashboard intro placeholder...'
+    item = CMS()
+    item.page = u'/pivot'
+    item.place_holder = u'dash_board_intro'
+    item.title = fake.text(25)
+    item.text = fake.paragraph()
+    item.save()
 
     return True
 

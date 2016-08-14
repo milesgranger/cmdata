@@ -1,8 +1,8 @@
-from apps.site.models import BusinessArea, User
+from apps.site.models import CMS, User
 from settings import DATABASE
 
 models = [
-    BusinessArea,
+    CMS,
     User,
 ]
 

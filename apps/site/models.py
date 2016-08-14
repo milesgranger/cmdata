@@ -40,25 +40,36 @@ class UserSchema(ModelSchema):
         model = User
 
 
-class BusinessArea(BaseModel):
+class CMS(BaseModel):
 
     pk = pw.PrimaryKeyField()
-    title = pw.CharField(max_length=255)
-    introduction = pw.TextField()
-    image = pw.CharField(max_length=255, null=True)
+    page = pw.CharField(max_length=255,
+                        null=False,
+                        help_text='Relative path to url. ie. /about, or / for index page')
+    place_holder = pw.CharField(max_length=50,
+                                null=False,
+                                help_text='Unique id relative to this/these element(s); NO SPACES!')
+    title = pw.CharField(null=True,
+                         max_length=255,
+                         help_text='Any title for this element, handy for making links.')
+    text = pw.TextField(null=True,
+                        help_text='Raw text/html which will be displayed')
+    image = pw.CharField(max_length=255,
+                         null=True,
+                         help_text='Optional picture')
 
 
     def __unicode__(self):
-        return self.title
+        return u'Page: {}, Placeholder: {}'.format(self.page, self.place_holder)
 
     def __str__(self):
-        return self.title
+        return u'Page: {}, Placeholder: {}'.format(self.page, self.place_holder)
 
 
-class BusinessAreaSchema(ModelSchema):
+class CMSSchema(ModelSchema):
     '''Dumps instance models into json/dict'''
     class Meta:
-        model = BusinessArea
+        model = CMS
 
 
 

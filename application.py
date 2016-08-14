@@ -5,7 +5,7 @@ from flask_admin import Admin
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CsrfProtect
-from settings import ROOT_DIR, DEBUG, DATABASE, SECRET_KEY
+from settings import ROOT_DIR, DEBUG, DATABASE, SECRET_KEY, STATIC_DIR
 from flask_login import LoginManager
 
 
@@ -56,9 +56,15 @@ def load_user(user_id):
 from apps.site.admin_views import FlaskAdminView
 admin = Admin(app, name='C&M Data Solutions', index_view=FlaskAdminView(), template_mode='bootstrap3')
 
-from apps.site.models import BusinessArea, User
-from apps.site.admin_views import BusinessAreaView, UserAreaView
-admin.add_view(BusinessAreaView(BusinessArea, name='Business Areas'))
+from flask_admin.contrib.fileadmin import FileAdmin
+# The middle arg is the what is appended to the file name relative to STATIC_DIR
+# ie. ../static/images/pic.jpg --> localhost:5000/static/images/pic.jpg
+# and not localhost:5000/images/pic.jpg
+admin.add_view(FileAdmin(STATIC_DIR, '/static/', name='Static Files'))
+
+from apps.site.models import CMS, User
+from apps.site.admin_views import CMSView, UserAreaView
+admin.add_view(CMSView(CMS, name='Place Holders'))
 admin.add_view(UserAreaView(User, name='Users'))
 
 

@@ -1,9 +1,15 @@
 import time
+import os
+import glob
+
+import pandas as pd
+
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from application import bcrypt
-from .models import BusinessArea, User
+from .models import CMS, User
 from .forms import LoginForm
 from flask_login import login_required, login_user, logout_user
+from settings import STATIC_DIR
 
 
 site_blueprint = Blueprint(name=__name__,
@@ -14,8 +20,20 @@ site_blueprint = Blueprint(name=__name__,
 
 @site_blueprint.route('/')
 def index():
-    areas = [area for area in BusinessArea.select().limit(5)]
+    areas = [area for area in CMS.select().where(CMS.page==u'/').limit(5)]
     return render_template('index.html', areas=areas)
+
+
+@site_blueprint.route('/pivot')
+def pivot():
+    pathToSampleData = os.path.join(STATIC_DIR, 'data', 'sample_data', '*.csv')
+    data = glob.glob(pathToSampleData)
+    if not data:
+        return 'Sorry, there is not sample data available.'
+    df = pd.read_csv(data[0])
+    return render_template('pivottablejs.html',
+                           data=df.to_dict('records'),
+                           place_holders=[p for p in CMS.select().where(CMS.page==u'/pivot')])
 
 
 @site_blueprint.route('/login', methods=['GET', 'POST'])

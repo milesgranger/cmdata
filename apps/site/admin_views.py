@@ -49,7 +49,6 @@ class UserAreaView(ModelView):
         [os.remove(p) for p in glob.glob(os.path.join(STATIC_DIR, f + '*'))]
         return True
 
-
     def on_model_change(self, form, model, is_created):
         '''Has the plaintext password'''
         model.password = bcrypt.generate_password_hash(model.password)
@@ -61,6 +60,9 @@ class UserAreaView(ModelView):
 
     }
 
+    column_exclude_list = ['password']
+    form_excluded_columns = column_exclude_list
+
     form_extra_fields = {
         'image': form.ImageUploadField(label='Image',
                                        relative_path='images/',
@@ -71,7 +73,7 @@ class UserAreaView(ModelView):
 
 
 
-class BusinessAreaView(ModelView):
+class CMSView(ModelView):
     '''Admin view for business area'''
     def _list_thumbnail(view, context, model, name):
         if not model.image:

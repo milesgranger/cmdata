@@ -21,7 +21,7 @@
         <div class="carousel-inner" role="listbox">
 
             <!-- Slides -->
-            {% for area in areas %}
+            {% for area in areas if area.place_holder == 'what_we_do' %}
                 {% if area.image %}
                 <div class="{{ "item active" if loop.index0 == 0 else "item" }}">
                     <img class="center-block img-rounded img-thumbnail img-responsive" width="300" height="200"
@@ -60,10 +60,10 @@
         </div>
 
         <div class="row">
-            {% for area in areas %}
+            {% for area in areas if area.place_holder == 'what_we_do' %}
                 <div class="col-sm-3 col-sm-offset-1 well well-small">
                     <h4>{{ area.title }}</h4>
-                    <p>{{ area.introduction }}</p>
+                    <p>{{ area.text }}</p>
                 </div>
             {% endfor %}
         </div>
