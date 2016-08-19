@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 
 {% block header_static %}
 
@@ -52,13 +52,13 @@
 
 {% block content %}
 
-    {% for dash_board_intro in place_holders if dash_board_intro.place_holder == 'dash_board_intro' %}
+    {% for dash_board in place_holders if dash_board_intro.place_holder == 'dash_board_intro' %}
         <div class="row">
             <div class="col-md-12">
                 <div class="well">
-                    <h4>{{ dash_board_intro.title or None }}</h4>
+                    <h4>{{ dash_board.title or None }}</h4>
                     <p>
-                        {{ dash_board_intro.text }}
+                        {{ dash_board.text }}
                     </p>
                 </div>
             </div>

@@ -51,7 +51,7 @@ def create_data():
     item = CMS()
     item.page = u'/pivot'
     item.place_holder = u'dash_board_intro'
-    item.title = fake.text(25)
+    item.place_holder_description = fake.text(25)
     item.text = fake.paragraph()
     item.save()
 

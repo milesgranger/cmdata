@@ -12,16 +12,17 @@ from flask_login import login_required, login_user, logout_user
 from settings import STATIC_DIR
 
 
-site_blueprint = Blueprint(name=__name__,
-                           import_name='site_bluePrint',
+site_blueprint = Blueprint(import_name='site_blueprint',
+                           name=__name__,
                            static_folder='apps/site/static',
+                           static_url_path='/static/site',
                            template_folder='apps/site/templates')
 
 
 @site_blueprint.route('/')
 def index():
-    areas = [area for area in CMS.select().where(CMS.page==u'/').limit(5)]
-    return render_template('index.html', areas=areas)
+    areas = [area for area in CMS.select().where(CMS.page==u'/')]
+    return render_template('index.html')
 
 
 @site_blueprint.route('/pivot')
@@ -33,7 +34,7 @@ def pivot():
     df = pd.read_csv(data[0])
     return render_template('pivottablejs.html',
                            data=df.to_dict('records'),
-                           place_holders=[p for p in CMS.select().where(CMS.page==u'/pivot')])
+                           place_holders=[p for p in CMS.select().where(CMS.page == u'/pivot')])
 
 
 @site_blueprint.route('/login', methods=['GET', 'POST'])

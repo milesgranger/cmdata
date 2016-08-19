@@ -49,9 +49,9 @@ class CMS(BaseModel):
     place_holder = pw.CharField(max_length=50,
                                 null=False,
                                 help_text='Unique id relative to this/these element(s); NO SPACES!')
-    title = pw.CharField(null=True,
-                         max_length=255,
-                         help_text='Any title for this element, handy for making links.')
+    place_holder_description = pw.CharField(null=True,
+                                            max_length=255,
+                                            help_text='Description for this placeholder (not shown on site)')
     text = pw.TextField(null=True,
                         help_text='Raw text/html which will be displayed')
     image = pw.CharField(max_length=255,
