@@ -83,7 +83,7 @@ class StatisticalModelingArea extends  React.Component {
         return (
             <div className="row">
                 <div className="col-xs-4 col-xs-offset-4">
-                <Modal {...this.props} style={{'margin-top': '10%'}}>
+                <Modal bsSize="lg" {...this.props} style={{'margin-top': '10%'}}>
                     <Modal.Header closeButton>
                         <Modal.Title>Statistical Modeling</Modal.Title>
                     </Modal.Header>
@@ -124,7 +124,7 @@ class DataManagementArea extends  React.Component {
         return (
             <div className="row">
                 <div className="col-xs-4 col-xs-offset-4">
-                <Modal {...this.props} style={{'margin-top': '10%'}}>
+                <Modal bsSize="lg" {...this.props} style={{'margin-top': '10%'}}>
                     <Modal.Header closeButton>
                         <Modal.Title>Data Management</Modal.Title>
                     </Modal.Header>
@@ -164,8 +164,8 @@ class CustomReportingArea extends  React.Component {
 
         return (
             <div className="row">
-                <div className="col-xs-4 col-xs-offset-4">
-                <Modal {...this.props} style={{'margin-top': '10%'}}>
+                <div className="col-sm-12">
+                <Modal bsSize="lg" {...this.props} style={{'margin-top': '10%'}}>
                     <Modal.Header closeButton>
                         <Modal.Title>Custom Reporting</Modal.Title>
                     </Modal.Header>
