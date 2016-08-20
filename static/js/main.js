@@ -96,17 +96,14 @@ class Main extends React.Component {
 
     }
     componentWillUnmount (){
-        console.log('Unmounting');
     }
 
     componentDidUpdate (){
-        console.log('Updated!');
     }
 
     contactUs (){
-        console.log('rendering contact form!');
-        var close = () => this.setState({showContactForm: false});
 
+        var close = () => this.setState({showContactForm: false});
 
         return(
             <ContactForm show={true} onHide={close}  />
@@ -116,12 +113,22 @@ class Main extends React.Component {
 
     renderHome() {
         return(
-            <div className="well well-md text-center">
-                <h3>There's a lot of data out there.</h3>
-                <h4>Let's make sense of it.</h4>
-                <hr/>
-                <button onClick={() => {return this.setState({view: 'areas'})}} className="btn btn-primary" value="Find out more">Find out more.</button>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="well well-md text-center">
+                            <h3>There's a lot of data out there.</h3>
+                            <h4>Let's make sense of it.</h4>
+                            <hr/>
+                            <button onClick={() => {
+                                return this.setState({view: 'areas'})
+                            }} className="btn btn-primary" value="Find out more">Find out more.
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
     )
     }
 
