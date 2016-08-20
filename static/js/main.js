@@ -113,7 +113,6 @@ class Main extends React.Component {
 
     renderHome() {
         return(
-            <div className="container">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="well well-md text-center">
@@ -127,7 +126,6 @@ class Main extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
 
     )
     }
@@ -175,5 +173,15 @@ class Main extends React.Component {
 
 $(document).ready(function(){
 
+    window.addEventListener('resize', function(){
+        var windowHeight = parseInt($(window).height());
+        $('#particles-js').css({'height': windowHeight});
+    });
+
+    var windowHeight = parseInt($(window).height());
+    $('#particles-js').css({'height': windowHeight});
+
+
     ReactDOM.render(<Main/>, document.getElementById('app'));
+
 });
