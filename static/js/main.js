@@ -63,30 +63,168 @@ class ContactForm extends  React.Component {
 }
 
 
+class StatisticalModelingArea extends  React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    render () {
+        const popover = (
+          <Popover id="modal-popover" title="popover">
+            very popover. such engagement
+          </Popover>
+        );
+        const tooltip = (
+          <Tooltip id="modal-tooltip">
+            wow.
+          </Tooltip>
+        );
+
+        return (
+            <div className="row">
+                <div className="col-xs-4 col-xs-offset-4">
+                <Modal {...this.props} style={{'margin-top': '10%'}}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Statistical Modeling</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h4>This is all about our statistical knowledge</h4>
+                        <p>
+                            Placeholder for description about stats.
+                        </p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.props.onHide}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+                </div>
+                </div>
+        )
+    }
+}
+
+
+class DataManagementArea extends  React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    render () {
+        const popover = (
+          <Popover id="modal-popover" title="popover">
+            very popover. such engagement
+          </Popover>
+        );
+        const tooltip = (
+          <Tooltip id="modal-tooltip">
+            wow.
+          </Tooltip>
+        );
+
+        return (
+            <div className="row">
+                <div className="col-xs-4 col-xs-offset-4">
+                <Modal {...this.props} style={{'margin-top': '10%'}}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Data Management</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h4>This is all about our data management knowledge</h4>
+                        <p>
+                            Placeholder for description about data management.
+                        </p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.props.onHide}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+                </div>
+                </div>
+        )
+    }
+}
+
+
+class CustomReportingArea extends  React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    render () {
+        const popover = (
+          <Popover id="modal-popover" title="popover">
+            very popover. such engagement
+          </Popover>
+        );
+        const tooltip = (
+          <Tooltip id="modal-tooltip">
+            wow.
+          </Tooltip>
+        );
+
+        return (
+            <div className="row">
+                <div className="col-xs-4 col-xs-offset-4">
+                <Modal {...this.props} style={{'margin-top': '10%'}}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Custom Reporting</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h4>This is all about our custom reporting knowledge</h4>
+                        <p>
+                            Placeholder for description about custom reporting.
+                        </p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.props.onHide}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+                </div>
+                </div>
+        )
+    }
+}
+
+
 class BusinessAreas extends React.Component {
     constructor(props){
         super(props);
     }
 
     render (){
+
+        var passInfoToParent = () => {
+            this.props.handleClick(this.props.id);
+        };
+
         return (
             <Col md={4}>
                 <div style={{'min-height':'20%'}} className="well">
                     <i className={this.props.glyph}></i>
                     <h4>{this.props.businessArea}</h4>
-                    <button className="btn btn-info">Learn more.</button>
+                    <button onClick={passInfoToParent} className="btn btn-info">Learn more.</button>
                 </div>
             </Col>
         )
     }
 }
 
+
+
+
 class Main extends React.Component {
 
     constructor(props){
         super(props);
         this.successful = false;
-        this.state = {view: 'home', serverData: null, showContactForm: false};
+        this.state = {
+            view: 'home',
+            serverData: null,
+            showContactForm: false,
+            showStatsArea: false,
+            showDataMgmtArea: false,
+            showReportingArea: false
+        };
     }
 
     componentDidMount(){
@@ -104,7 +242,6 @@ class Main extends React.Component {
     contactUs (){
 
         var close = () => this.setState({showContactForm: false});
-
         return(
             <ContactForm show={true} onHide={close}  />
         )
@@ -131,6 +268,19 @@ class Main extends React.Component {
     }
 
     renderAreas () {
+
+        var handleClick = (areaid) => {
+            if (areaid == 'sm'){
+                this.setState({showStatsArea: true});
+            }
+            else if (areaid == 'dm'){
+                this.setState({showDataMgmtArea: true});
+            }
+            else if (areaid == 'cr'){
+                this.setState({showReportingArea: true});
+            }
+        };
+
         return (
             <Grid fluid={true}>
                 <Row>
@@ -144,10 +294,19 @@ class Main extends React.Component {
 
                 <Row className="text-center">
                     <BusinessAreas glyph="glyphicon glyphicon-signal"
+                                   handleClick={handleClick}
+                                   key={1}
+                                   id="sm"
                                    businessArea="Statistical Modeling & Prediction"/>
                     <BusinessAreas glyph="glyphicon glyphicon-hdd"
+                                   handleClick={handleClick}
+                                   key={2}
+                                   id="dm"
                                    businessArea="Data Management"/>
                     <BusinessAreas glyph="glyphicon glyphicon-list-alt"
+                                   handleClick={handleClick}
+                                   key={3}
+                                   id="cr"
                                    businessArea="Custom Reporting"/>
                 </Row>
             </Grid>
@@ -156,10 +315,30 @@ class Main extends React.Component {
 
     render () {
 
+        var close = () => {this.setState({
+            showReportingArea: false,
+            showDataMgmtArea: false,
+            showStatsArea: false
+        })};
+
+
         if (this.state.showContactForm) {
             return this.contactUs();
         }
 
+        // ---------Checks for business area detail views ------------
+        else if (this.state.showReportingArea){
+            return <CustomReportingArea show={true} onHide={close}/>
+        }
+        else if (this.state.showDataMgmtArea){
+            return <DataManagementArea show={true} onHide={close} />
+        }
+        else if (this.state.showStatsArea){
+            return <StatisticalModelingArea show={true} onHide={close}/>
+        }
+
+
+        // --------- Checks for base page views --------------
         else if (this.state.view == 'home'){
             return this.renderHome();
         }
