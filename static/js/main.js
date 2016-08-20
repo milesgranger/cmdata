@@ -9,6 +9,9 @@ var Popover = ReactBootstrap.Popover;
 var Tooltip = ReactBootstrap.Tooltip;
 var Form = ReactBootstrap.Form;
 var FormGroup = ReactBootstrap.FormGroup;
+var Col = ReactBootstrap.Col;
+var Row = ReactBootstrap.Row;
+var Grid = ReactBootstrap.Grid;
 
 class ContactForm extends  React.Component {
     constructor(props){
@@ -62,22 +65,18 @@ class ContactForm extends  React.Component {
 
 class BusinessAreas extends React.Component {
     constructor(props){
-        super(props)
+        super(props);
     }
 
     render (){
         return (
-            <div className="row">
-                <div className="col-md-12">
-                    <div className="jumbotron">
-                        <div className="well well-lg">
-                            <p>
-                                Welcome to the about page!
-                            </p>
-                        </div>
-                    </div>
+            <Col md={4}>
+                <div style={{'min-height':'20%'}} className="well">
+                    <i className={this.props.glyph}></i>
+                    <h4>{this.props.businessArea}</h4>
+                    <button className="btn btn-info">Learn more.</button>
                 </div>
-            </div>
+            </Col>
         )
     }
 }
@@ -127,7 +126,16 @@ class Main extends React.Component {
     }
 
     renderAreas () {
-        return (<BusinessAreas/>)
+        return (
+            <Row className="text-center">
+                <BusinessAreas glyph="glyphicon glyphicon-signal"
+                               businessArea="Statistical Modeling & Prediction" />
+                <BusinessAreas glyph="glyphicon glyphicon-hdd"
+                               businessArea="Data management" />
+                <BusinessAreas glyph="glyphicon glyphicon-list-alt"
+                               businessArea="Custom Reporting" />
+            </Row>
+            )
     }
 
     render () {
