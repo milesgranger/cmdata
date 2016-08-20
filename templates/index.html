@@ -12,9 +12,9 @@
     <style>
         .panel {
             position: absolute;
-            z-index: 100;
             top: 50%;
             left: 50%;
+            transform: translate(-50%, -50%);
             padding: 20px;
             border-radius: 8px;
             box-sizing: border-box;
@@ -22,14 +22,14 @@
         }
 
         body {
-            background-color: #00206e;
+            background-color: #1b689d !important;
         }
 
         /* ---- particles.js container ---- */
         #particles-js {
             width: 100%;
             height: auto;
-            background-color: #00206e;
+            background-color: #1b689d;
             background-image: url('');
             background-size: cover;
         }
@@ -56,8 +56,16 @@
     <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
     <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
     <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
-    <script type="text/babel" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
+
+    <!-- Reat Bootstrap stuff -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.2/react-bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
+
+    <!-- Local react components -->
+    <script type="text/babel" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
     <!-- Particles -->
     <script src="{{ url_for('apps.site.views.static', filename='js/particles.min.js') }}"></script>
@@ -66,6 +74,8 @@
 
 </head>
 <body>
+
+
 
     <!-- nav bar -->
     <nav class="navbar navbar-inverse">
@@ -117,27 +127,20 @@
     </nav>
 
 
-    <div class="container-fluid">
+<div class="container-fluid">
 
 
-    <div id="particles" class="row text-center">
-        <div class="col-md-12">
-            <div id="particles-js">
-                <div class="jumbo-tron panel">
-                    <div class="well well-md">
-                        <h3>There's a lot of data out there.</h3>
-                        <h4>Let's make sense of it.</h4>
-                        <hr>
-                        <button id="find-out-more" class="btn btn-primary" value="Find out more">Find out more.</button>
-                    </div>
-                </div>
+    <div id="particles">
+        <div id="particles-js">
+            <div class="jumbotron panel">
+                <div id="app"></div>
             </div>
         </div>
     </div>
 
 
-    <div id="app"></div>
 
+</div>
 
     <!-- Footer -->
     <div class="navbar navbar-default navbar-fixed-bottom">
@@ -146,9 +149,10 @@
                 © 2016 - Miles Granger
             </p>
             <a id="contact-us" href="javascript:;" class="navbar-btn btn-success btn pull-right">
-                <span class="glyphicon glyphicon-briefcase"></span> Get in contact!</a>
+                <span class="glyphicon glyphicon-briefcase"></span> Get in contact!
+            </a>
         </div>
     </div>
-</div>
+
 </body>
 </html>
