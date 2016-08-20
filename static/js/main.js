@@ -48,7 +48,7 @@ class ContactForm extends  React.Component {
                                 <textarea name="message" rows="5" className="form-control" type="text"/>
                             </div>
                             <div className="form-group text-center">
-                                <button type="submit" className="btn btn-primary">Send!</button>
+                                <button type="button" className="btn btn-primary">Send!</button>
                             </div>
                         </form>
                     </Modal.Body>
@@ -315,7 +315,9 @@ class Main extends React.Component {
 
     render () {
 
-        var close = () => {this.setState({
+        var close = () => {
+            $('#container-div').show();
+            this.setState({
             showReportingArea: false,
             showDataMgmtArea: false,
             showStatsArea: false
@@ -328,12 +330,15 @@ class Main extends React.Component {
 
         // ---------Checks for business area detail views ------------
         else if (this.state.showReportingArea){
+            $('#container-div').hide();
             return <CustomReportingArea show={true} onHide={close}/>
         }
         else if (this.state.showDataMgmtArea){
+            $('#container-div').hide();
             return <DataManagementArea show={true} onHide={close} />
         }
         else if (this.state.showStatsArea){
+            $('#container-div').hide();
             return <StatisticalModelingArea show={true} onHide={close}/>
         }
 
