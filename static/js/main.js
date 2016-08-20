@@ -127,14 +127,25 @@ class Main extends React.Component {
 
     renderAreas () {
         return (
-            <Row className="text-center">
-                <BusinessAreas glyph="glyphicon glyphicon-signal"
-                               businessArea="Statistical Modeling & Prediction" />
-                <BusinessAreas glyph="glyphicon glyphicon-hdd"
-                               businessArea="Data management" />
-                <BusinessAreas glyph="glyphicon glyphicon-list-alt"
-                               businessArea="Custom Reporting" />
-            </Row>
+            <Grid fluid={true}>
+                <Row>
+                    <Col md={12} className="text-center">
+                        <h3>
+                            Areas of specialty
+                        </h3>
+                        <hr/>
+                        </Col>
+                </Row>
+
+                <Row className="text-center">
+                    <BusinessAreas glyph="glyphicon glyphicon-signal"
+                                   businessArea="Statistical Modeling & Prediction"/>
+                    <BusinessAreas glyph="glyphicon glyphicon-hdd"
+                                   businessArea="Data Management"/>
+                    <BusinessAreas glyph="glyphicon glyphicon-list-alt"
+                                   businessArea="Custom Reporting"/>
+                </Row>
+            </Grid>
             )
     }
 
