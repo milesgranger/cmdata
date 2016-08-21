@@ -265,6 +265,7 @@ class Main extends React.Component {
 
         // ---------Checks for business area detail views ------------
         else if (this.state.showAreaDetail){
+            $('#container-div').hide();
             return (
                 <AreaDetail area={this.serverData.business_areas[this.showAreaDetailIndex]}
                             show={true}
