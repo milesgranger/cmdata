@@ -232,6 +232,10 @@ class Main extends React.Component {
         document.getElementById('home-link').addEventListener('click', function(){ this.setState({view: 'home'})}.bind(this));
         document.getElementById('contact-us').addEventListener('click', function(){this.setState({showContactForm: true})}.bind(this));
 
+        // Hide loading gif and show app's container
+        $('#gears-loader').hide();
+        $('#container-div').show();
+
     }
     componentWillUnmount (){
     }
@@ -269,6 +273,7 @@ class Main extends React.Component {
 
     renderAreas () {
 
+        // If user clicks on area overview, change to detail view of that area
         var handleClick = (areaid) => {
             if (areaid == 'sm'){
                 this.setState({showStatsArea: true});
@@ -324,9 +329,11 @@ class Main extends React.Component {
         })};
 
 
+        // ------ Contact form view
         if (this.state.showContactForm) {
             return this.contactUs();
         }
+
 
         // ---------Checks for business area detail views ------------
         else if (this.state.showReportingArea){
@@ -357,15 +364,24 @@ class Main extends React.Component {
 
 $(document).ready(function(){
 
-    window.addEventListener('resize', function(){
+
+    // Dynamically adjust sizes if window changes.
+    var adjustSizes = function(){
         var windowHeight = parseInt($(window).height());
+
+        // Stretch particles background all the way
         $('#particles-js').css({'height': windowHeight});
-    });
 
-    var windowHeight = parseInt($(window).height());
-    $('#particles-js').css({'height': windowHeight});
+        // Center gear loading gif.
+        $('#gears-loader').css({'margin-top': parseInt(windowHeight / 3)});
+    };
 
 
+    window.addEventListener('resize', adjustSizes);
+    adjustSizes(); // Call initially
+
+
+    // Render main React component
     ReactDOM.render(<Main/>, document.getElementById('app'));
 
 });
