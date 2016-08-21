@@ -63,7 +63,7 @@ class ContactForm extends  React.Component {
 }
 
 
-class StatisticalModelingArea extends  React.Component {
+class AreaDetail extends  React.Component {
     constructor(props){
         super(props);
     }
@@ -83,15 +83,13 @@ class StatisticalModelingArea extends  React.Component {
         return (
             <div className="row">
                 <div className="col-xs-4 col-xs-offset-4">
-                <Modal bsSize="lg" {...this.props} style={{'margin-top': '10%'}}>
+                <Modal bsSize="lg" {...this.props}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Statistical Modeling</Modal.Title>
+                        <Modal.Title>{this.props.area.title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <h4>This is all about our statistical knowledge</h4>
-                        <p>
-                            Placeholder for description about stats.
-                        </p>
+                        <div dangerouslySetInnerHTML={{__html: this.props.area.text}}>
+                        </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.props.onHide}>Close</Button>
@@ -104,89 +102,7 @@ class StatisticalModelingArea extends  React.Component {
 }
 
 
-class DataManagementArea extends  React.Component {
-    constructor(props){
-        super(props);
-    }
-
-    render () {
-        const popover = (
-          <Popover id="modal-popover" title="popover">
-            very popover. such engagement
-          </Popover>
-        );
-        const tooltip = (
-          <Tooltip id="modal-tooltip">
-            wow.
-          </Tooltip>
-        );
-
-        return (
-            <div className="row">
-                <div className="col-xs-4 col-xs-offset-4">
-                <Modal bsSize="lg" {...this.props} style={{'margin-top': '10%'}}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Data Management</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <h4>This is all about our data management knowledge</h4>
-                        <p>
-                            Placeholder for description about data management.
-                        </p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.props.onHide}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
-                </div>
-                </div>
-        )
-    }
-}
-
-
-class CustomReportingArea extends  React.Component {
-    constructor(props){
-        super(props);
-    }
-
-    render () {
-        const popover = (
-          <Popover id="modal-popover" title="popover">
-            very popover. such engagement
-          </Popover>
-        );
-        const tooltip = (
-          <Tooltip id="modal-tooltip">
-            wow.
-          </Tooltip>
-        );
-
-        return (
-            <div className="row">
-                <div className="col-sm-12">
-                <Modal bsSize="lg" {...this.props} style={{'margin-top': '10%'}}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Custom Reporting</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <h4>This is all about our custom reporting knowledge</h4>
-                        <p>
-                            Placeholder for description about custom reporting.
-                        </p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.props.onHide}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
-                </div>
-                </div>
-        )
-    }
-}
-
-
-class BusinessAreas extends React.Component {
+class BusinessAreaOverview extends React.Component {
     constructor(props){
         super(props);
     }
@@ -198,10 +114,12 @@ class BusinessAreas extends React.Component {
         };
 
         return (
+
+
             <Col md={4}>
                 <div style={{'min-height':'20%'}} className="well">
-                    <i className={this.props.glyph}></i>
-                    <h4>{this.props.businessArea}</h4>
+                    <i className={this.props.glyphicon}> </i>
+                    <h4>{this.props.title}</h4>
                     <button onClick={passInfoToParent} className="btn btn-info">Learn more.</button>
                 </div>
             </Col>
@@ -211,26 +129,46 @@ class BusinessAreas extends React.Component {
 
 
 
-
 class Main extends React.Component {
 
     constructor(props){
         super(props);
         this.successful = false;
+        this.serverData = null;
         this.state = {
             view: 'home',
             serverData: null,
             showContactForm: false,
-            showStatsArea: false,
-            showDataMgmtArea: false,
-            showReportingArea: false
+            showAreaDetail: false
         };
     }
 
+    getData() {
+        var assign = (data) => {
+            this.serverData = data.data;
+            console.log(this.serverData);
+        };
+
+        var url = window.location + '';
+        $.ajax({
+            url: url,
+            data: {'json': true},
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                assign(data);
+            },
+            error: function (error, xhr) {
+                console.log(xhr + '  ' + error);
+            }
+        });
+    }
     componentDidMount(){
         console.log('Mounted');
         document.getElementById('home-link').addEventListener('click', function(){ this.setState({view: 'home'})}.bind(this));
         document.getElementById('contact-us').addEventListener('click', function(){this.setState({showContactForm: true})}.bind(this));
+
+        this.getData();
 
         // Hide loading gif and show app's container
         $('#gears-loader').hide();
@@ -241,6 +179,7 @@ class Main extends React.Component {
     }
 
     componentDidUpdate (){
+        this.props.adjustSizes();
     }
 
     contactUs (){
@@ -275,15 +214,8 @@ class Main extends React.Component {
 
         // If user clicks on area overview, change to detail view of that area
         var handleClick = (areaid) => {
-            if (areaid == 'sm'){
-                this.setState({showStatsArea: true});
-            }
-            else if (areaid == 'dm'){
-                this.setState({showDataMgmtArea: true});
-            }
-            else if (areaid == 'cr'){
-                this.setState({showReportingArea: true});
-            }
+            this.showAreaDetailIndex = areaid;
+            this.setState({showAreaDetail: true})
         };
 
         return (
@@ -298,21 +230,20 @@ class Main extends React.Component {
                 </Row>
 
                 <Row className="text-center">
-                    <BusinessAreas glyph="glyphicon glyphicon-signal"
-                                   handleClick={handleClick}
-                                   key={1}
-                                   id="sm"
-                                   businessArea="Statistical Modeling & Prediction"/>
-                    <BusinessAreas glyph="glyphicon glyphicon-hdd"
-                                   handleClick={handleClick}
-                                   key={2}
-                                   id="dm"
-                                   businessArea="Data Management"/>
-                    <BusinessAreas glyph="glyphicon glyphicon-list-alt"
-                                   handleClick={handleClick}
-                                   key={3}
-                                   id="cr"
-                                   businessArea="Custom Reporting"/>
+
+                    {
+                        this.serverData.business_areas.map(function(area, i){
+                            console.log(area.title);
+                            return(
+                                <BusinessAreaOverview handleClick={handleClick}
+                                                      title={area.title}
+                                                      glyphicon={area.glyphicon}
+                                                      id={i}
+                                                      key={i} />
+                                )
+
+                        })
+                    }
                 </Row>
             </Grid>
             )
@@ -322,11 +253,8 @@ class Main extends React.Component {
 
         var close = () => {
             $('#container-div').show();
-            this.setState({
-            showReportingArea: false,
-            showDataMgmtArea: false,
-            showStatsArea: false
-        })};
+            this.setState({ showAreaDetail: false })
+        };
 
 
         // ------ Contact form view
@@ -336,17 +264,12 @@ class Main extends React.Component {
 
 
         // ---------Checks for business area detail views ------------
-        else if (this.state.showReportingArea){
-            $('#container-div').hide();
-            return <CustomReportingArea show={true} onHide={close}/>
-        }
-        else if (this.state.showDataMgmtArea){
-            $('#container-div').hide();
-            return <DataManagementArea show={true} onHide={close} />
-        }
-        else if (this.state.showStatsArea){
-            $('#container-div').hide();
-            return <StatisticalModelingArea show={true} onHide={close}/>
+        else if (this.state.showAreaDetail){
+            return (
+                <AreaDetail area={this.serverData.business_areas[this.showAreaDetailIndex]}
+                            show={true}
+                            onHide={close} />
+            )
         }
 
 
@@ -366,11 +289,15 @@ $(document).ready(function(){
 
 
     // Dynamically adjust sizes if window changes.
-    var adjustSizes = function(){
-        var windowHeight = parseInt($(window).height());
+    const adjustSizes = function(){
+        var windowHeight = $(window).height();
+        var navbarHeight = $('#nav-bar').height();
+        var footerHeight = $('#footer').height();
+        var containerHeight = $('#container-div').height();
 
+        console.log('adjust func');
         // Stretch particles background all the way
-        $('#particles-js').css({'height': windowHeight});
+        $('#particles-js').css({'height': windowHeight - navbarHeight - footerHeight });
 
         // Center gear loading gif.
         $('#gears-loader').css({'margin-top': parseInt(windowHeight / 3)});
@@ -382,6 +309,6 @@ $(document).ready(function(){
 
 
     // Render main React component
-    ReactDOM.render(<Main/>, document.getElementById('app'));
+    ReactDOM.render(<Main adjustSizes={adjustSizes} />, document.getElementById('app'));
 
 });

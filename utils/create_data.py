@@ -36,24 +36,33 @@ def create_data():
     ### Create business areas #####
     ###############################
     print 'Building Business Areas...'
-    for i in range(3):
-        item = CMS()
-        item.page = u'/'
-        item.place_holder = u'what_we_do'
-        item.title = fake.text(25)
-        item.text = fake.paragraph()
-        item.save()
-
-    ###############################
-    ### Create business areas #####
-    ###############################
-    print 'Building dashboard intro placeholder...'
     item = CMS()
-    item.page = u'/pivot'
-    item.place_holder = u'dash_board_intro'
-    item.place_holder_description = fake.text(25)
-    item.text = fake.paragraph()
+    item.page = u'/'
+    item.place_holder = u'business_area'
+    item.place_holder_description = u'Raw html for business area detail description'
+    item.title = u'Statistical Modeling & Prediction'
+    item.text = u'Information about our statistical knowledge'
+    item.glyphicon = u'glyphicon glyphicon-signal'
     item.save()
+
+    item = CMS()
+    item.page = u'/'
+    item.place_holder = u'business_area'
+    item.place_holder_description = u'Raw html for business area detail description'
+    item.title = u'Data Management'
+    item.text = u'Information about our data management'
+    item.glyphicon = u'glyphicon glyphicon-hdd'
+    item.save()
+
+    item = CMS()
+    item.page = u'/'
+    item.place_holder = u'business_area'
+    item.place_holder_description = u'Raw html for business area detail description'
+    item.title = u'Custom Reporting'
+    item.text = u'Information about our custom reporting'
+    item.glyphicon = u'glyphicon glyphicon-list-alt'
+    item.save()
+
 
     return True
 

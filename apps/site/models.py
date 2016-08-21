@@ -46,12 +46,18 @@ class CMS(BaseModel):
     page = pw.CharField(max_length=255,
                         null=False,
                         help_text='Relative path to url. ie. /about, or / for index page')
+
     place_holder = pw.CharField(max_length=50,
                                 null=False,
                                 help_text='Unique id relative to this/these element(s); NO SPACES!')
     place_holder_description = pw.CharField(null=True,
                                             max_length=255,
                                             help_text='Description for this placeholder (not shown on site)')
+
+    glyphicon = pw.CharField(null=True, help_text='Bootstrap glyphicon class name if needed')
+
+    title = pw.CharField(null=True, help_text='Any relevant title.')
+
     text = pw.TextField(null=True,
                         help_text='Raw text/html which will be displayed')
     image = pw.CharField(max_length=255,

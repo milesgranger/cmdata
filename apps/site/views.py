@@ -4,9 +4,9 @@ import glob
 
 import pandas as pd
 
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from application import bcrypt
-from .models import CMS, User
+from .models import CMS, CMSSchema, User
 from .forms import LoginForm
 from flask_login import login_required, login_user, logout_user
 from settings import STATIC_DIR
@@ -21,20 +21,14 @@ site_blueprint = Blueprint(import_name='site_blueprint',
 
 @site_blueprint.route('/')
 def index():
-    areas = [area for area in CMS.select().where(CMS.page==u'/')]
-    return render_template('index.html')
+    if request.args.get('json', None):
+        jsonDumper = CMSSchema()
+        areas = [jsonDumper.dump(area)[0] for area in CMS.select().where(CMS.page==u'/')]
+        data = jsonify({'success': True, 'data': {'business_areas': areas}})
+        return data
+    else:
+        return render_template('index.html')
 
-
-@site_blueprint.route('/pivot')
-def pivot():
-    pathToSampleData = os.path.join(STATIC_DIR, 'data', 'sample_data', '*.csv')
-    data = glob.glob(pathToSampleData)
-    if not data:
-        return 'Sorry, there is not sample data available.'
-    df = pd.read_csv(data[0])
-    return render_template('pivottablejs.html',
-                           data=df.to_dict('records'),
-                           place_holders=[p for p in CMS.select().where(CMS.page == u'/pivot')])
 
 
 @site_blueprint.route('/login', methods=['GET', 'POST'])
